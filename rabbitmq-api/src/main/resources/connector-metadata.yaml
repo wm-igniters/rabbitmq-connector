@@ -1,0 +1,4 @@
+version: "1.0"
+name: "Rabbitmq"
+description: "A simple connector Rabbitmq that can be used in WaveMaker application"
+springConfigurationClass: "com.wavemaker.connector.rabbitmq.WaveMakerRabbitmqConnectorConfiguration"
