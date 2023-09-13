@@ -4,6 +4,33 @@ Connector is a Java based backend extension for WaveMaker applications. Connecto
 # RabbitMQ
 RabbitMQ is an open-source message broker software that provides a way for different software systems to communicate with each other by sending and receiving messages. It is often used to implement messaging patterns such as message queuing, publish/subscribe, and request/reply in distributed systems.
 
+![image](https://github.com/wm-igniters/rabbitmq-connector/assets/144779049/96d91944-472a-458e-ae6c-5b90ba786e37)
+
+
+Here are some key concepts and features of RabbitMQ:
+
++ **Message Broker**: RabbitMQ acts as a middleman or message broker between different components of a distributed system. It accepts messages from producers (applications that send messages) and delivers them to consumers (applications that receive messages).
+
++ **Message Queues**: RabbitMQ uses message queues to store messages until they are consumed by the intended recipient. Queues enable asynchronous communication and decouple producers from consumers.
+
++ **Publish/Subscribe**: RabbitMQ supports the publish/subscribe messaging pattern, where a message can be broadcast to multiple consumers. This is useful for scenarios where multiple consumers need to receive the same message.
+
++ **Routing**: RabbitMQ allows for sophisticated message routing based on message attributes, allowing messages to be directed to specific queues or consumers based on criteria you define.
+
++ **Exchange**: In RabbitMQ, an exchange is responsible for receiving messages from producers and routing them to the appropriate queues. Different types of exchanges, such as direct, topic, fanout, and headers, provide flexibility in routing messages.
+
++ **Bindings**: Bindings define the relationship between exchanges and queues, specifying how messages should be routed from exchanges to queues.
+
++ **AMQP Protocol**: RabbitMQ uses the Advanced Message Queuing Protocol (AMQP) as the communication protocol between clients and the server. AMQP is an open standard for messaging.
+
++ **Durable and Persistent**: RabbitMQ supports durability for messages and queues, which ensures that messages are not lost even if the broker or a consumer crashes.
+
++ **Clustering**: RabbitMQ can be set up in a cluster configuration to provide high availability and scalability. Clusters distribute messages across multiple nodes for fault tolerance.
+
++ **Plugins and Extensions**: RabbitMQ offers a plugin architecture that allows you to extend its functionality. There are various plugins available for features like message authentication, authorization, and more.
+
+RabbitMQ is commonly used in microservices architectures, cloud-native applications, and any scenario where you need to reliably and efficiently pass messages between different components of a distributed system. It supports multiple programming languages and has a wide range of client libraries, making it accessible to developers working in various environments.
+
 # rabbitmq-connector
 This connector is used to publish/send the messagaes(json and normal text format) to RabbitMQ and consume from the same.
 
