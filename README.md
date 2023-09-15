@@ -53,7 +53,8 @@ This connector is used to publish/send the messagaes(json and normal text format
 + Go to connector section
 + upload the zip file from **dist** folder
 + Provide Rabbitmq details(host, port, username and password)
-  ![image](https://github.com/wm-igniters/rabbitmq-connector/assets/144779049/ece74240-d796-4c79-a938-3f16084d6508)
+  ![image](https://github.com/wm-igniters/rabbitmq-connector/assets/144779049/add30339-0bfa-437d-b422-b3729e58981a)
+
 ## Publisher 
    + Import below in java service
 ```
@@ -73,27 +74,6 @@ import com.wavemaker.connector.rabbitmq.WaveMakerRabbitmqConnector;
   + Example
 
    ```
-
-package com.employeeonboarding.myjavaservice;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-
-import com.wavemaker.runtime.security.SecurityService;
-import com.wavemaker.runtime.service.annotations.ExposeToClient;
-import com.wavemaker.runtime.service.annotations.HideFromClient;
-
-import com.wavemaker.connector.rabbitmq.WaveMakerRabbitmqConnector;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-//import com.employeeonboarding.myjavaservice.model.*;
 
 @ExposeToClient
 public class MyJavaService {
@@ -138,26 +118,6 @@ import com.rabbitmq.client.DeliverCallback;
     
   + Example
 ```
-import javax.servlet.http.HttpServletRequest;
-import com.employeesdb.wavemaker.Employee;
-import com.employeesdb.wavemaker.service.EmployeeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.wavemaker.runtime.security.SecurityService;
-import com.wavemaker.runtime.service.annotations.ExposeToClient;
-import com.wavemaker.runtime.service.annotations.HideFromClient;
-import com.wavemaker.connector.rabbitmq.WaveMakerRabbitmqConnector;
-import com.rabbitmq.client.DeliverCallback;
-import java.util.*;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.beans.factory.annotation.Value;
-
-//import com.employeesdb.myjavaservice.model.*;
-
 @ExposeToClient
 public class MyJavaService {
 
