@@ -122,66 +122,40 @@ import com.rabbitmq.client.DeliverCallback;
 public class MyJavaService {
 
     private static final Logger logger = LoggerFactory.getLogger(MyJavaService.class);
-    
+
     private WaveMakerRabbitmqConnector rabbitmqConnector;
 
     private EmployeeService employeeService;
-   
+    
     private String queueName;
-   
-    MyJavaService(WaveMakerRabbitmqConnector rabbitmqConnector, EmployeeService employeeService, @Value("${app.environment.queueName}") String queueName )throws IOException, TimeoutException{
+    
+    MyJavaService(WaveMakerRabbitmqConnector rabbitmqConnector, EmployeeService employeeService, @Value("${app.environment.queueName}")String queueName )throws IOException, TimeoutException{
        this.rabbitmqConnector = rabbitmqConnector;
        this.employeeService = employeeService;
        this.queueName = queueName;
        logger.info("invoking the consumer on application start up for the queue: "+queueName);
+       //Todo: we can get the list of queues and invoke the consumer based on size
         getMessage(queueName);
-     }
-   
-     private final ConcurrentHashMap<String, Boolean> deduplicationStore = new ConcurrentHashMap<>();
-   
-     public void cancelConsume(String consumerTag, HttpServletRequest request)throws IOException{
-         logger.info("Cancelling the consumer: "+consumerTag);
-         rabbitmqConnector.cancelConsume(consumerTag);
-     }
-    
-     public String getMessage(String queueName)throws IOException, TimeoutException{
-         logger.info("Consuming message from RabbitMQ");
-         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-         String messageId = delivery.getProperties().getMessageId();
-         logger.info("messageId: "+messageId);
-          if (!isMessageProcessed(messageId)) {
-                 String message = new String(delivery.getBody(), "UTF-8");
-                 ObjectMapper objectMapper = new ObjectMapper();
-                 Map<String, Object> resultMap = objectMapper.readValue(message, Map.class);
-                 logger.info("resultMap "+resultMap);
-                 Map<String, Object> input = (Map<String, Object>) resultMap.get("Employee");
-                 logger.info("inputMap "+input);
-                 Employee employee = new Employee();
-                 employee.setFirstName(String.valueOf(input.get("firstName")));
-                 employee.setLastName(String.valueOf(input.get("lastName")));
-                 employee.setAddress(String.valueOf(input.get("address")));
-                 employee.setDob(String.valueOf(input.get("dob")));
-                 employee.setEmail(String.valueOf(input.get("email")));
-                 employee.setPhone((Integer) input.get("phone"));
-                 employeeService.create(employee);
-                 markMessageAsProcessed(messageId);
-            }
-         };
-         rabbitmqConnector.consumeMessage(queueName, true, deliverCallback, consumerTag -> { });
-         return "Success";
-    }
-    
-    private boolean isMessageProcessed(String messageId) {
-        // Check if the message ID exists in the deduplication store
-         logger.info("Inside isMessageProcessed");
-        return deduplicationStore.containsKey(messageId);
     }
 
-    private void markMessageAsProcessed(String messageId) {
-        // Mark the message ID as processed in the deduplication store
-         logger.info("Inside markMessageAsProcessed");
-        deduplicationStore.put(messageId, true);
-    }  
+
+    public void cancelConsume(String consumerTag, HttpServletRequest request)throws IOException{
+        logger.info("Cancelling the consumer: "+consumerTag);
+        rabbitmqConnector.cancelConsume(consumerTag);
+    }
+    
+    public void getMessage(String queueName)throws IOException, TimeoutException{
+         logger.info("Consuming message from RabbitMQ");
+         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+          String message = new String(delivery.getBody(), "UTF-8");
+          ObjectMapper objectMapper = new ObjectMapper();
+          Employee employee = objectMapper.readValue(message, Employee.class);
+          employeeService.create(employee);
+         };
+         rabbitmqConnector.consumeMessage(queueName, true, deliverCallback, consumerTag -> { });
+    }
+    
+
 }
 ```
 
