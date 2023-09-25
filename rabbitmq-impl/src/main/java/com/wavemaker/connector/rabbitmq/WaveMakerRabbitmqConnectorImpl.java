@@ -28,13 +28,13 @@ public class WaveMakerRabbitmqConnectorImpl implements WaveMakerRabbitmqConnecto
     private RabbitMQConsumer rabbitMQConsumer;
 
     @Override
-    public void sendMessage(String exchangeName, String routingKey, String message, String messageId){
-        rabbitMQProducer.sendMessage(exchangeName, routingKey, message, messageId);
+    public void sendMessage(String exchangeName, String routingKey, String message){
+        rabbitMQProducer.sendMessage(exchangeName, routingKey, message);
     }
 
     @Override
-    public void sendJsonMessage(String exchangeName, String routingKey, Object obj, String messageId) {
-        rabbitMQProducer.sendJsonMessage(exchangeName, routingKey, obj, messageId);
+    public void sendJsonMessage(String exchangeName, String routingKey, Object obj) {
+        rabbitMQProducer.sendJsonMessage(exchangeName, routingKey, obj);
     }
 
     @Override
