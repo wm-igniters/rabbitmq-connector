@@ -18,7 +18,7 @@ public interface WaveMakerRabbitmqConnector {
       * @param routingKey   contains the routing key of exchange
       * @param message      contains the text to send rabbitmq queue
       */
-     void sendMessage(String exchangeName, String routingKey, String message, String messageId);
+     void sendMessage(String exchangeName, String routingKey, String message);
 
      /**
       * Api to send json message to rabbitmq
@@ -26,7 +26,7 @@ public interface WaveMakerRabbitmqConnector {
       * @param routingKey   contains the routing key of exchange
       * @param obj          contains the json to send rabbitmq queue
       */
-     void sendJsonMessage(String exchangeName, String routingKey, Object obj, String messageId);
+     void sendJsonMessage(String exchangeName, String routingKey, Object obj);
 
      /**
       * Api to consume the text/json from rabbitmq

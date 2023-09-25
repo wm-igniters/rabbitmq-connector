@@ -18,29 +18,17 @@ import org.springframework.stereotype.Service;
 
         @Autowired
         private RabbitTemplate rabbitTemplate;
-
-        private MessageConverter messageConverter = new SimpleMessageConverter();
-
-        private String messageId = String.valueOf(Math.random());
-
-        public void sendMessage(String exchangeName, String routingKey, String message, String messageId){
+        public void sendMessage(String exchangeName, String routingKey, String message){
             logger.debug("exchangeName: {}, routingKey: {}", exchangeName, routingKey);
             logger.info(String.format("Message -> %s", message));
-            rabbitTemplate.convertAndSend(exchangeName, routingKey, message, messagePostProcessor(messageId));
+            rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
         }
 
-        public void sendJsonMessage(String exchangeName, String routingKey, Object obj, String messageId){
+        public void sendJsonMessage(String exchangeName, String routingKey, Object obj){
             logger.debug("exchangeName: {}, routingKey: {}", exchangeName, routingKey);
             logger.info(String.format("Json message -> %s", obj.toString()));
-            rabbitTemplate.convertAndSend(exchangeName, routingKey, obj, messagePostProcessor(messageId));
+            rabbitTemplate.convertAndSend(exchangeName, routingKey, obj);
         }
 
-        private MessagePostProcessor messagePostProcessor(String messageId){
-            MessagePostProcessor messagePostProcessor = message -> {
-                MessageProperties properties = message.getMessageProperties();
-                properties.setMessageId(messageId);
-                return message;
-            };
-            return messagePostProcessor;
-        }
+
     }
