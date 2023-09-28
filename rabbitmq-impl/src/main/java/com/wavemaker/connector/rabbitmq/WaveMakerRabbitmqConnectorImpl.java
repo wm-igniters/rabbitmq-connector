@@ -7,6 +7,7 @@ import com.wavemaker.connector.rabbitmq.publisher.RabbitMQProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -38,13 +39,12 @@ public class WaveMakerRabbitmqConnectorImpl implements WaveMakerRabbitmqConnecto
     }
 
     @Override
-    public void consumeMessage(String queueName, Boolean flag, DeliverCallback deliverCallback, CancelCallback cancelCallback) throws IOException, TimeoutException {
-        rabbitMQConsumer.consumeMessage(queueName, flag, deliverCallback, cancelCallback);
+    public String consumeMessage(String queueName, Boolean flag, DeliverCallback deliverCallback, CancelCallback cancelCallback) throws IOException, TimeoutException {
+       return rabbitMQConsumer.consumeMessage(queueName, flag, deliverCallback, cancelCallback);
     }
 
     @Override
-    public void cancelConsume(String consumerTag) throws IOException {
-        rabbitMQConsumer.cancelConsume(consumerTag);
+    public void cancelConsumer(String consumerTag) throws IOException, TimeoutException {
+        rabbitMQConsumer.cancelConsumer(consumerTag);
     }
-
 }

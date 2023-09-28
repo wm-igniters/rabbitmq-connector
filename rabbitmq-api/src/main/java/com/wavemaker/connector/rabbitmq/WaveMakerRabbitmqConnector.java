@@ -3,6 +3,7 @@ package com.wavemaker.connector.rabbitmq;
 import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.DeliverCallback;
 import com.wavemaker.runtime.connector.annotation.WMConnector;
+import org.springframework.amqp.core.MessageListener;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -37,12 +38,14 @@ public interface WaveMakerRabbitmqConnector {
       * @throws IOException
       * @throws TimeoutException
       */
-     void consumeMessage(String queueName, Boolean flag, DeliverCallback deliverCallback, CancelCallback cancelCallback) throws IOException, TimeoutException;
+     String consumeMessage(String queueName, Boolean flag, DeliverCallback deliverCallback, CancelCallback cancelCallback) throws IOException, TimeoutException;
 
      /**
       * Api to cancel the consumer of rabbitmq
       * @param consumerTag contains the consumerTag of the consumer
       * @throws IOException
       */
-     void cancelConsume(String consumerTag) throws IOException;
+     void cancelConsumer(String consumerTag) throws IOException, TimeoutException;
+
+
 }
