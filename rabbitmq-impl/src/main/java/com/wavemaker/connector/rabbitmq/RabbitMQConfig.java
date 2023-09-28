@@ -2,6 +2,7 @@ package com.wavemaker.connector.rabbitmq;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -12,7 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+@EnableRabbit
+public class RabbitMQConfig{
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQConfig.class);
 
@@ -50,4 +52,5 @@ public class RabbitMQConfig {
         rabbitTemplate.setMessageConverter(converter());
         return rabbitTemplate;
     }
+
 }
