@@ -45,7 +45,7 @@ public interface WaveMakerRabbitmqConnector {
       * @param consumerTag contains the consumerTag of the consumer
       * @throws IOException
       */
-     void cancelConsumer(String consumerTag) throws IOException, TimeoutException;
+     void cancelConsumer(String consumerTag);
 
 
 }

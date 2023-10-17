@@ -32,24 +32,18 @@ public class RabbitMQConsumer{
         return channel.basicConsume(queueName, flag, deliverCallback, cancelCallback);
     }
 
-    public void cancelConsumer(String consumerTag) throws IOException, TimeoutException {
-        if(channel != null && channel.isOpen()){
-           channel.basicCancel(consumerTag);
+    public void cancelConsumer(String consumerTag) {
+        try {
+            if (channel != null && channel.isOpen()) {
+                channel.basicCancel(consumerTag);
+                channel.close();
+            }
+            if (connection != null && connection.isOpen()) {
+                connection.close();
+            }
+        } catch (IOException | TimeoutException e) {
+            logger.error("Error while closing the channel: " + e.getMessage(), e);
         }
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        logger.info("inside finalize method");
-        if(channel != null && channel.isOpen()){
-            logger.info("channel.isOpen() "+channel.isOpen());
-            channel.close();
-            logger.info("after closing, checking channel.isOpen() "+channel.isOpen());
-        }
-        if(connection != null && connection.isOpen()){
-            logger.info("connection.isOpen() "+connection.isOpen());
-            connection.close();
-            logger.info("after closing, checking connection.isOpen() "+connection.isOpen());
-        }
-    }
 }
