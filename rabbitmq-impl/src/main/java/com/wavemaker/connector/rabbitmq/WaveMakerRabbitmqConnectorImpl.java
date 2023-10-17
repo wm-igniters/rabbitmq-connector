@@ -44,7 +44,7 @@ public class WaveMakerRabbitmqConnectorImpl implements WaveMakerRabbitmqConnecto
     }
 
     @Override
-    public void cancelConsumer(String consumerTag) throws IOException, TimeoutException {
+    public void cancelConsumer(String consumerTag)  {
         rabbitMQConsumer.cancelConsumer(consumerTag);
     }
 }
