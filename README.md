@@ -69,7 +69,7 @@ import com.wavemaker.connector.rabbitmq.WaveMakerRabbitmqConnector;
 
   + To publish the json message, use **sendJsonMessage** from the connector
     ```
-    rabbitmqConnector.sendJsonMessage(exchangeName, routingKey, obj, String.valueOf(Math.random()));
+    rabbitmqConnector.sendJsonMessage(exchangeName, routingKey, obj);
     ```
   + Example
 
@@ -87,11 +87,10 @@ public class MyJavaService {
     /**
      * Api to send Json object to Rabbitmq server
      */
-    public void addEmployee(Object obj, String exchangeName, String routingKey, HttpServletRequest request){
+     public void addEmployee(Object obj, String exchangeName, String routingKey, HttpServletRequest request){
         logger.info("New Employee " + obj.toString());
-        rabbitmqConnector.sendJsonMessage(exchangeName, routingKey, obj, String.valueOf(Math.random()));
-    }
-    
+        rabbitmqConnector.sendJsonMessage(exchangeName, routingKey, obj);
+    }  
 }
 ```
 
@@ -110,7 +109,7 @@ import com.rabbitmq.client.DeliverCallback;
 
   + To consume the  message, use **consumeMessage** from the connector
  ```
-    rabbitmqConnector.consumeMessage(queueName, true, deliverCallback, consumerTag -> { });
+    String tag = rabbitmqConnector.consumeMessage(queueName, true, deliverCallback, consumerTag -> { });
  ```
   + Configure the queueName in App Environment
     ![image](https://github.com/wm-igniters/rabbitmq-connector/assets/144779049/7c8dcf75-557b-47e5-b6af-976c35cb669b)
@@ -122,26 +121,25 @@ import com.rabbitmq.client.DeliverCallback;
 public class MyJavaService {
 
     private static final Logger logger = LoggerFactory.getLogger(MyJavaService.class);
-
+    
     private WaveMakerRabbitmqConnector rabbitmqConnector;
 
     private EmployeeService employeeService;
-    
+   
     private String queueName;
-    
-    MyJavaService(WaveMakerRabbitmqConnector rabbitmqConnector, EmployeeService employeeService, @Value("${app.environment.queueName}")String queueName )throws IOException, TimeoutException{
+   
+   MyJavaService(WaveMakerRabbitmqConnector rabbitmqConnector, EmployeeService employeeService, @Value("${app.environment.queueName}") String queueName )throws IOException, TimeoutException{
        this.rabbitmqConnector = rabbitmqConnector;
        this.employeeService = employeeService;
        this.queueName = queueName;
        logger.info("invoking the consumer on application start up for the queue: "+queueName);
-       //Todo: we can get the list of queues and invoke the consumer based on size
         getMessage(queueName);
     }
-
-
-    public void cancelConsume(String consumerTag, HttpServletRequest request)throws IOException{
-        logger.info("Cancelling the consumer: "+consumerTag);
-        rabbitmqConnector.cancelConsume(consumerTag);
+   
+   
+    public void cancelConsumer(String consumerTag, HttpServletRequest request){
+         logger.info("Cancelling the consumer: "+consumerTag);
+         rabbitmqConnector.cancelConsumer(consumerTag);
     }
     
     public void getMessage(String queueName)throws IOException, TimeoutException{
@@ -152,10 +150,9 @@ public class MyJavaService {
           Employee employee = objectMapper.readValue(message, Employee.class);
           employeeService.create(employee);
          };
-         rabbitmqConnector.consumeMessage(queueName, true, deliverCallback, consumerTag -> { });
+         String tag = rabbitmqConnector.consumeMessage(queueName, true, deliverCallback, consumerTag -> { });
     }
     
-
 }
 ```
 
