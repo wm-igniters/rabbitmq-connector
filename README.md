@@ -54,6 +54,7 @@ This connector is used to publish/send the messagaes(json and normal text format
 + upload the zip file from **dist** folder
 + Provide Rabbitmq details(host, port, username and password)
   ![image](https://github.com/wm-igniters/rabbitmq-connector/assets/144779049/add30339-0bfa-437d-b422-b3729e58981a)
++ Whenever application needed restart or stop, we should restart the RabbitMQ Server to close the connections and channels
 
 ## Publisher 
    + Import below in java service
