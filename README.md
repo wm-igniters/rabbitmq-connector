@@ -68,7 +68,7 @@ import com.wavemaker.connector.rabbitmq.WaveMakerRabbitmqConnector;
     private WaveMakerRabbitmqConnector rabbitmqConnector;
 ```
 
-  + To publish the json message, use **sendJsonMessage** from the connector
+  + To publish the json message, use **sendJsonMessage** method from the connector
     ```
     rabbitmqConnector.sendJsonMessage(exchangeName, routingKey, obj);
     ```
